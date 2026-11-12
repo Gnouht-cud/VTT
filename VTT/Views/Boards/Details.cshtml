@@ -1,0 +1,12 @@
+@model Board
+@{
+    ViewData["Title"] = Model.Title;
+}
+<div class="board" data-board-id="@Model.Id" style="background:@(Model.Background ?? "#0c66e4")">
+    <div class="board-hdr">
+        <h1>@Model.Title</h1>
+        <button class="ghost" type="button" aria-label="Đánh dấu sao">☆</button>
+        <span class="avatar sm">D</span>
+    </div>
+    <div class="lists" id="lists"></div>
+</div>

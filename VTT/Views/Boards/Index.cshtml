@@ -1,0 +1,14 @@
+@model List<Board>
+@{
+    ViewData["Title"] = "Bảng";
+}
+<main class="home">
+    <h2>Các bảng của bạn</h2>
+    <div class="tiles">
+        @foreach (var b in Model)
+        {
+            <a class="tile" style="background:@(b.Background ?? "#0c66e4")" asp-action="Details" asp-route-id="@b.Id">@b.Title</a>
+        }
+        <div class="tile new" data-create-board role="button" tabindex="0">Tạo bảng mới</div>
+    </div>
+</main>

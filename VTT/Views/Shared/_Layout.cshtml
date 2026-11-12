@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | VTT</title>
+    <link rel="stylesheet" href="~/css/trello.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="hdr">
+        <a class="logo" asp-controller="Boards" asp-action="Index"><i></i>VTT</a>
+        <a class="nav" asp-controller="Boards" asp-action="Index">Bảng</a>
+        <div class="search"><input type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" /></div>
+        <a class="btn primary" asp-controller="Boards" asp-action="Index">Tạo</a>
+        <span class="avatar" title="Tài khoản">D</span>
+    </header>
+    @RenderBody()
+    <script src="~/js/trello.js" asp-append-version="true"></script>
+</body>
+</html>
