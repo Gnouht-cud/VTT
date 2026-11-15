@@ -6,7 +6,7 @@ public static class DbInitializer
 {
     public const string DefaultBackground = "linear-gradient(135deg,#0c66e4,#8f7ee7)";
 
-    // Tạo dữ liệu mẫu khi CSDL còn trống
+  
     public static void Seed(AppDbContext db)
     {
         if (db.Users.Any()) return;
