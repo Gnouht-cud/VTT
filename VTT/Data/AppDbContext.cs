@@ -29,19 +29,18 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(b);
 
-        // Bước 1: mặc định cấm xóa dây chuyền cho MỌI khóa ngoại
-        // (tránh lỗi "multiple cascade paths" của SQL Server)
+    
         foreach (var fk in b.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             fk.DeleteBehavior = DeleteBehavior.Restrict;
 
-        // Khóa chính kép cho các bảng trung gian
+    
         b.Entity<WorkspaceMember>().HasKey(x => new { x.WorkspaceId, x.UserId });
         b.Entity<BoardMember>().HasKey(x => new { x.BoardId, x.UserId });
         b.Entity<BoardStar>().HasKey(x => new { x.BoardId, x.UserId });
         b.Entity<CardMember>().HasKey(x => new { x.CardId, x.UserId });
         b.Entity<CardLabel>().HasKey(x => new { x.CardId, x.LabelId });
 
-        // Bước 2: chỉ bật xóa dây chuyền theo chiều cha -> con
+       
         b.Entity<WorkspaceMember>().HasOne(x => x.Workspace).WithMany(x => x.Members).OnDelete(DeleteBehavior.Cascade);
         b.Entity<Board>().HasOne(x => x.Workspace).WithMany(x => x.Boards).OnDelete(DeleteBehavior.Cascade);
         b.Entity<BoardMember>().HasOne(x => x.Board).WithMany(x => x.Members).OnDelete(DeleteBehavior.Cascade);
@@ -62,7 +61,7 @@ public class AppDbContext : DbContext
         b.Entity<Card>().HasOne(x => x.Creator).WithMany().HasForeignKey(x => x.CreatedBy).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Attachment>().HasOne(x => x.Uploader).WithMany().HasForeignKey(x => x.UploadedBy).OnDelete(DeleteBehavior.Restrict);
 
-        // Ràng buộc duy nhất và chỉ mục
+       
         b.Entity<User>().HasIndex(x => x.Email).IsUnique();
         b.Entity<User>().HasIndex(x => x.UserName).IsUnique();
         b.Entity<BoardList>().HasIndex(x => new { x.BoardId, x.Position });
