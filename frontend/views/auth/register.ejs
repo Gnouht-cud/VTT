@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng ký tài khoản | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+</head>
+<body style="background: var(--bg-app);">
+  <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 16px;">
+    <div style="width: 100%; max-width: 480px; background: #ffffff; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); padding: 36px 32px;">
+      
+      <div style="text-align: center; margin-bottom: 26px;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); color: #fff; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(253, 121, 168, 0.35);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="7" height="15" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="10" rx="1.5"></rect>
+          </svg>
+        </div>
+        <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">Tạo tài khoản VTT</h1>
+        <p style="font-size: 13.5px; color: var(--text-muted);">Bắt đầu quản lý công việc và đồng bộ nhóm tức thì</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: var(--danger-bg); color: var(--danger-text); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; margin-bottom: 18px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+        <span>⚠</span>
+        <span><%= error %></span>
+      </div>
+      <% } %>
+
+      <form action="/register" method="post">
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">Họ và tên <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="reg-fullname" name="fullName" placeholder="VD: Nguyễn Văn A" required autofocus />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email <span style="color:var(--danger)">*</span></label>
+            <input type="email" class="form-control" id="reg-email" name="email" placeholder="email@domain.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-username">Tên người dùng <span style="color:var(--danger)">*</span></label>
+            <input type="text" class="form-control" id="reg-username" name="userName" placeholder="nguyenvana" required />
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Mật khẩu <span style="color:var(--danger)">*</span></label>
+            <input type="password" class="form-control" id="reg-password" name="password" placeholder="Tối thiểu 4 ký tự" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reg-confirm">Xác nhận mật khẩu <span style="color:var(--danger)">*</span></label>
+            <input type="password" class="form-control" id="reg-confirm" name="confirmPassword" placeholder="Nhập lại mật khẩu" required />
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px; font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">
+          Bằng cách đăng ký, bạn đồng ý với Điều khoản và Cam kết bảo mật của Hệ thống phân tán VTT.
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-size: 14px;">
+          Đăng ký tài khoản
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 24px; font-size: 13px; color: var(--text-muted);">
+        Đã có tài khoản?
+        <a href="/login" style="color: var(--primary-hover); font-weight: 700; text-decoration: underline;">Đăng nhập</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

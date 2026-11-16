@@ -1,0 +1,33 @@
+<!-- Modal Tạo Bảng Mới -->
+<div class="modal-overlay" id="create-board-modal" role="dialog" aria-modal="true">
+  <div class="modal-window" style="width: 440px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Tạo bảng công việc mới</h3>
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+    </div>
+    <form id="create-board-form">
+      <div class="modal-body" style="padding: 18px 24px;">
+        <div class="form-group">
+          <label class="form-label" for="new-board-title">Tiêu đề bảng <span style="color:var(--danger)">*</span></label>
+          <input type="text" class="form-control" id="new-board-title" placeholder="VD: Dự án Website Quý 4..." required maxlength="100" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Chọn phông nền</label>
+          <div class="palette-picker" style="grid-template-columns: repeat(3, 1fr); margin-top: 6px;">
+            <div class="palette-swatch board-bg-selector selected" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)">Sunrise</div>
+            <div class="palette-swatch board-bg-selector" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #e84393 100%)">Rose</div>
+            <div class="palette-swatch board-bg-selector" style="background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%);" data-bg="linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%)">Lavender</div>
+            <div class="palette-swatch board-bg-selector" style="background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);" data-bg="linear-gradient(135deg, #55efc4 0%, #81ecec 100%)">Mint</div>
+            <div class="palette-swatch board-bg-selector" style="background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);" data-bg="linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%)">Ocean</div>
+            <div class="palette-swatch board-bg-selector" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)">Sunset</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-modal-close>Hủy</button>
+        <button type="submit" class="btn btn-primary" id="btn-submit-create-board">Tạo bảng</button>
+      </div>
+    </form>
+  </div>
+</div>

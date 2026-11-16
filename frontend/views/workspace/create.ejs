@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tạo nhóm làm việc mới | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="max-width: 680px; padding: 32px 24px;">
+          <div style="margin-bottom: 24px;">
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Tạo nhóm làm việc mới</h1>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Tạo không gian làm việc để quản lý dự án cùng đồng đội</p>
+          </div>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+          <div style="background: var(--danger-bg); color: var(--danger-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+            <span>⚠</span>
+            <span><%= error %></span>
+          </div>
+          <% } %>
+
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px;">
+            <form action="/workspace/create" method="post">
+              <div class="form-group">
+                <label class="form-label" for="ws-name">Tên nhóm / Không gian làm việc <span style="color:var(--danger)">*</span></label>
+                <input type="text" class="form-control" id="ws-name" name="name" placeholder="VD: Nhóm Phát triển Mobile App..." required maxlength="100" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ws-category">Lĩnh vực hoạt động</label>
+                <select class="form-control" id="ws-category" name="category">
+                  <option value="Công nghệ & Kỹ thuật">Công nghệ & Kỹ thuật</option>
+                  <option value="Marketing & Truyền thông">Marketing & Truyền thông</option>
+                  <option value="Kinh doanh & Bán hàng">Kinh doanh & Bán hàng</option>
+                  <option value="Giáo dục & Học tập">Giáo dục & Học tập</option>
+                  <option value="Dự án Cá nhân">Dự án Cá nhân</option>
+                  <option value="Khác">Khác</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ws-desc">Mô tả mục tiêu</label>
+                <textarea class="form-control" id="ws-desc" name="description" rows="3" placeholder="Mục tiêu của nhóm, các cột mốc quan trọng..."></textarea>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <a href="/boards" class="btn btn-ghost">Hủy</a>
+                <button type="submit" class="btn btn-primary">Khởi tạo nhóm</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

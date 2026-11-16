@@ -1,0 +1,20 @@
+<!-- Hộp thoại xác nhận thao tác toàn hệ thống -->
+<div class="modal-overlay" id="global-confirm-modal" role="dialog" aria-modal="true">
+  <div class="modal-window confirm-box">
+    <div class="modal-body">
+      <div class="confirm-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <h3 class="confirm-title" id="confirm-dialog-title">Xác nhận</h3>
+      <p class="confirm-text" id="confirm-dialog-desc">Bạn có chắc chắn muốn thực hiện thao tác này không?</p>
+      <div style="display: flex; justify-content: center; gap: 12px;">
+        <button type="button" class="btn btn-ghost" data-modal-close>Hủy</button>
+        <button type="button" class="btn btn-danger" id="confirm-dialog-ok">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+</div>

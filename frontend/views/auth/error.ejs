@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | VTT</title>
+  <link rel="stylesheet" href="/css/trello.css" />
+</head>
+<body style="background: var(--bg-app);">
+  <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 16px;">
+    <div style="width: 100%; max-width: 480px; background: #ffffff; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border-light); padding: 36px 32px; text-align: center;">
+      <div style="font-size: 48px; margin-bottom: 12px;">⚠</div>
+      <h2 style="font-size: 20px; font-weight: 800; color: var(--danger-text); margin-bottom: 8px;"><%= title %></h2>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;"><%= message %></p>
+      <a href="/boards" class="btn btn-primary">Trở về bảng việc</a>
+    </div>
+  </div>
+</body>
+</html>

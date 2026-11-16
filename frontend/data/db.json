@@ -1,0 +1,510 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "demo@vtt.local",
+      "userName": "demo",
+      "fullName": "Demo User",
+      "passwordHash": "$2b$10$FcGO8f.sjZ4jQ6mfE8lPEe8IGuVTGd4afXzExJ75y3uqMjRGw6UVK",
+      "role": "Admin",
+      "isLocked": false,
+      "avatar": "D",
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 2,
+      "email": "admin@vtt.local",
+      "userName": "admin",
+      "fullName": "Quản Trị Viên",
+      "passwordHash": "$2b$10$6DZBUOeh/H8unMczb1NJZu8l3XHDHOSgBiRnPw/gOPf1Vd9M6QEey",
+      "role": "Admin",
+      "isLocked": false,
+      "avatar": "Q",
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 3,
+      "email": "mai.tran@vtt.local",
+      "userName": "maitran",
+      "fullName": "Trần Thị Mai",
+      "passwordHash": "$2b$10$6DZBUOeh/H8unMczb1NJZu8l3XHDHOSgBiRnPw/gOPf1Vd9M6QEey",
+      "role": "Member",
+      "isLocked": false,
+      "avatar": "M",
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 4,
+      "email": "nam.le@vtt.local",
+      "userName": "namle",
+      "fullName": "Lê Hoàng Nam",
+      "passwordHash": "$2b$10$6DZBUOeh/H8unMczb1NJZu8l3XHDHOSgBiRnPw/gOPf1Vd9M6QEey",
+      "role": "Member",
+      "isLocked": false,
+      "avatar": "N",
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 5,
+      "email": "khoa.user@vtt.local",
+      "userName": "userbikhoa",
+      "fullName": "Người Dùng Bị Khóa",
+      "passwordHash": "$2b$10$6DZBUOeh/H8unMczb1NJZu8l3XHDHOSgBiRnPw/gOPf1Vd9M6QEey",
+      "role": "Member",
+      "isLocked": false,
+      "avatar": "K",
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    }
+  ],
+  "workspaces": [
+    {
+      "id": 1,
+      "name": "Không gian làm việc VTT",
+      "description": "Hệ thống quản lý công việc và dự án phân tán",
+      "category": "Công nghệ & Kỹ thuật",
+      "ownerId": 1,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    }
+  ],
+  "workspaceMembers": [
+    {
+      "workspaceId": 1,
+      "userId": 1,
+      "role": "Admin",
+      "joinedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "workspaceId": 1,
+      "userId": 2,
+      "role": "Admin",
+      "joinedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "workspaceId": 1,
+      "userId": 3,
+      "role": "Member",
+      "joinedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "workspaceId": 1,
+      "userId": 4,
+      "role": "Member",
+      "joinedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "workspaceId": 1,
+      "userId": 5,
+      "role": "Viewer",
+      "joinedAt": "2026-11-16T13:54:27.543Z"
+    }
+  ],
+  "boards": [
+    {
+      "id": 1,
+      "workspaceId": 1,
+      "title": "Dự án Hệ thống Phân tán VTT",
+      "description": "Quản lý tiến độ phát triển các phân hệ Web, API và Socket thời gian thực",
+      "background": "linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)",
+      "createdBy": 1,
+      "isClosed": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 2,
+      "workspaceId": 1,
+      "title": "Kế hoạch Marketing & Truyền thông",
+      "description": "Chiến dịch ra mắt sản phẩm và tiếp thị khách hàng quý 4",
+      "background": "linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%)",
+      "createdBy": 1,
+      "isClosed": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 3,
+      "workspaceId": 1,
+      "title": "Dự án Phát triển Agile / Scrum",
+      "description": "Quy trình quản lý Sprint, Backlog và Review tính năng.",
+      "background": "linear-gradient(135deg, #fd79a8 0%, #e84393 100%)",
+      "createdBy": 1,
+      "isClosed": false,
+      "createdAt": "2026-11-16T14:10:31.762Z"
+    }
+  ],
+  "boardMembers": [
+    {
+      "boardId": 1,
+      "userId": 1,
+      "role": "Admin"
+    },
+    {
+      "boardId": 1,
+      "userId": 2,
+      "role": "Admin"
+    },
+    {
+      "boardId": 1,
+      "userId": 3,
+      "role": "Member"
+    },
+    {
+      "boardId": 1,
+      "userId": 4,
+      "role": "Member"
+    },
+    {
+      "boardId": 2,
+      "userId": 1,
+      "role": "Admin"
+    },
+    {
+      "boardId": 3,
+      "userId": 1,
+      "role": "Admin"
+    }
+  ],
+  "lists": [
+    {
+      "id": 1,
+      "boardId": 1,
+      "title": "Cần làm",
+      "position": 1024,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 2,
+      "boardId": 1,
+      "title": "Đang làm",
+      "position": 2048,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 3,
+      "boardId": 1,
+      "title": "Chờ duyệt",
+      "position": 3072,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 4,
+      "boardId": 1,
+      "title": "Hoàn thành",
+      "position": 4096,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 5,
+      "boardId": 2,
+      "title": "Cần làm",
+      "position": 1024,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 6,
+      "boardId": 2,
+      "title": "Đang làm",
+      "position": 2048,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 7,
+      "boardId": 2,
+      "title": "Chờ duyệt",
+      "position": 3072,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 8,
+      "boardId": 2,
+      "title": "Hoàn thành",
+      "position": 4096,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 9,
+      "boardId": 3,
+      "title": "Cần làm",
+      "position": 1024,
+      "isArchived": false,
+      "createdAt": "2026-11-16T14:10:31.762Z"
+    },
+    {
+      "id": 10,
+      "boardId": 3,
+      "title": "Đang làm",
+      "position": 2048,
+      "isArchived": false,
+      "createdAt": "2026-11-16T14:10:31.762Z"
+    },
+    {
+      "id": 11,
+      "boardId": 3,
+      "title": "Chờ duyệt",
+      "position": 3072,
+      "isArchived": false,
+      "createdAt": "2026-11-16T14:10:31.762Z"
+    },
+    {
+      "id": 12,
+      "boardId": 3,
+      "title": "Hoàn thành",
+      "position": 4096,
+      "isArchived": false,
+      "createdAt": "2026-11-16T14:10:31.762Z"
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "boardId": 1,
+      "listId": 1,
+      "title": "Thiết kế giao diện người dùng theo chuẩn Pastel Pink",
+      "description": "Tối ưu hóa UI/UX với chuẩn phối màu #fd79a8, responsive đa thiết bị, bố cục Kanban rõ ràng.",
+      "position": 1024,
+      "priority": "High",
+      "progressPercent": 30,
+      "startDate": "2026-11-14T13:54",
+      "dueDate": "2026-11-19T13:54",
+      "isDueDone": false,
+      "createdBy": 1,
+      "assignedUserIds": [
+        1,
+        3
+      ],
+      "version": 2,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z",
+      "updatedAt": "2026-11-16T13:54:48.268Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "boardId": 1,
+      "listId": 2,
+      "title": "Tích hợp Socket.IO đồng bộ thời gian thực và phát hiện xung đột",
+      "description": "Xử lý đẩy cập nhật đa máy trạm, quản lý version và cơ chế tự động kết nối lại khi mất mạng.",
+      "position": 1024,
+      "priority": "Urgent",
+      "progressPercent": 70,
+      "startDate": "2026-11-15T13:54",
+      "dueDate": "2026-11-17T13:54",
+      "isDueDone": false,
+      "createdBy": 1,
+      "assignedUserIds": [
+        1,
+        2
+      ],
+      "version": 2,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z",
+      "updatedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 3,
+      "boardId": 1,
+      "listId": 2,
+      "title": "Xây dựng module Thống kê Báo cáo tiến độ & công việc quá hạn",
+      "description": "Hiển thị tỷ lệ hoàn thành, thống kê công việc theo trạng thái, theo thành viên và danh sách trễ hạn.",
+      "position": 2048,
+      "priority": "Medium",
+      "progressPercent": 50,
+      "startDate": "2026-11-13T13:54",
+      "dueDate": "2026-11-15T13:54",
+      "isDueDone": false,
+      "createdBy": 2,
+      "assignedUserIds": [
+        4
+      ],
+      "version": 1,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z",
+      "updatedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 4,
+      "boardId": 1,
+      "listId": 3,
+      "title": "Kiểm thử phân quyền nhóm và khóa/mở khóa tài khoản",
+      "description": "Kiểm tra role Admin, Member, Viewer, chức năng khóa tài khoản chặn đăng nhập tức thì.",
+      "position": 1024,
+      "priority": "Medium",
+      "progressPercent": 90,
+      "startDate": "2026-11-12T13:54",
+      "dueDate": "2026-11-18T13:54",
+      "isDueDone": false,
+      "createdBy": 1,
+      "assignedUserIds": [
+        3
+      ],
+      "version": 1,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z",
+      "updatedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 5,
+      "boardId": 1,
+      "listId": 4,
+      "title": "Khởi tạo cấu trúc cơ sở dữ liệu và xác thực danh tính",
+      "description": "Cấu hình bảng Users, Workspaces, Boards, Cards, Comments và Activities.",
+      "position": 1024,
+      "priority": "High",
+      "progressPercent": 100,
+      "startDate": "2026-11-10T13:54",
+      "dueDate": "2026-11-14T13:54",
+      "isDueDone": true,
+      "createdBy": 1,
+      "assignedUserIds": [
+        1,
+        4
+      ],
+      "version": 1,
+      "isArchived": false,
+      "createdAt": "2026-11-16T13:54:27.543Z",
+      "updatedAt": "2026-11-16T13:54:27.543Z"
+    },
+    {
+      "id": 6,
+      "boardId": 3,
+      "listId": 9,
+      "title": "Khởi động mục tiêu và phân tích yêu cầu",
+      "description": "",
+      "position": 1024,
+      "priority": "High",
+      "progressPercent": 20,
+      "startDate": null,
+      "dueDate": null,
+      "isDueDone": false,
+      "createdBy": 1,
+      "assignedUserIds": [
+        1
+      ],
+      "version": 1,
+      "isArchived": false,
+      "createdAt": "2026-11-16T14:10:31.763Z",
+      "updatedAt": "2026-11-16T14:10:31.763Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "cardId": 2,
+      "userId": 2,
+      "content": "Đã hoàn thiện kiểm thử gửi tin nhắn Socket.IO giữa 2 tab trình duyệt.",
+      "createdAt": "2026-11-16T11:54:27.554Z"
+    },
+    {
+      "id": 2,
+      "cardId": 2,
+      "userId": 1,
+      "content": "Rất tốt! Cần chú ý xử lý thêm popup phát hiện xung đột khi 2 người cùng sửa 1 thẻ.",
+      "createdAt": "2026-11-16T12:54:27.554Z"
+    }
+  ],
+  "activities": [
+    {
+      "id": 1,
+      "boardId": 1,
+      "cardId": 2,
+      "userId": 1,
+      "action": "status_changed",
+      "details": "Đã chuyển thẻ sang cột Đang làm",
+      "createdAt": "2026-11-16T08:54:27.554Z"
+    },
+    {
+      "id": 2,
+      "boardId": 1,
+      "cardId": 2,
+      "userId": 1,
+      "action": "progress_updated",
+      "details": "Cập nhật tiến độ hoàn thành lên 70%",
+      "createdAt": "2026-11-16T10:54:27.554Z"
+    },
+    {
+      "id": 3,
+      "boardId": 1,
+      "cardId": 5,
+      "userId": 1,
+      "action": "status_changed",
+      "details": "Đã chuyển thẻ sang cột Hoàn thành (100%)",
+      "createdAt": "2026-11-14T13:54:27.554Z"
+    },
+    {
+      "id": 4,
+      "boardId": 3,
+      "cardId": 6,
+      "userId": 1,
+      "action": "created",
+      "details": "Đã tạo công việc \"Khởi động mục tiêu và phân tích yêu cầu\"",
+      "createdAt": "2026-11-16T14:10:31.763Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Phân công công việc mới",
+      "message": "Bạn được phân công vào công việc: Thiết kế giao diện người dùng",
+      "type": "assign",
+      "cardId": 1,
+      "boardId": 1,
+      "isRead": false,
+      "createdAt": "2026-11-16T11:54:27.554Z"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "title": "Cảnh báo sắp đến hạn",
+      "message": "Công việc \"Tích hợp Socket.IO đồng bộ thời gian thực\" sắp hết hạn trong 24 giờ tới!",
+      "type": "due_soon",
+      "cardId": 2,
+      "boardId": 1,
+      "isRead": false,
+      "createdAt": "2026-11-16T13:24:27.554Z"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "title": "Trạng thái công việc thay đổi",
+      "message": "Công việc \"Khởi tạo cấu trúc cơ sở dữ liệu\" đã được chuyển sang Hoàn thành.",
+      "type": "status",
+      "cardId": 5,
+      "boardId": 1,
+      "isRead": true,
+      "createdAt": "2026-11-14T13:54:27.554Z"
+    }
+  ],
+  "chatMessages": [
+    {
+      "id": 1,
+      "workspaceId": 1,
+      "boardId": 1,
+      "userId": 2,
+      "content": "Chào cả nhóm! Hôm nay chúng ta tập trung hoàn thiện giao diện Node.js và đồng bộ real-time nhé.",
+      "createdAt": "2026-11-16T09:54:27.554Z"
+    },
+    {
+      "id": 2,
+      "workspaceId": 1,
+      "boardId": 1,
+      "userId": 3,
+      "content": "Vâng anh! Em đang kiểm tra các bảng Kanban và chức năng kéo thả.",
+      "createdAt": "2026-11-16T10:54:27.554Z"
+    },
+    {
+      "id": 3,
+      "workspaceId": 1,
+      "boardId": 1,
+      "userId": 1,
+      "content": "Tuyệt vời. Mọi người có thể mở 2 tab song song để kiểm tra đẩy dữ liệu trực tiếp tức thì.",
+      "createdAt": "2026-11-16T11:54:27.554Z"
+    }
+  ]
+}

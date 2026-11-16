@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div style="min-height: calc(100vh - 120px); display: flex; align-items: center; justify-content: center; padding: 32px 16px;">
+    <div style="width: 100%; max-width: 480px; background: #ffffff; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); padding: 36px 32px;">
+        <div style="text-align: center; margin-bottom: 26px;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); color: #fff; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(253, 121, 168, 0.35);">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="3" y="3" width="7" height="15" rx="1.5"></rect>
+                    <rect x="14" y="3" width="7" height="10" rx="1.5"></rect>
+                </svg>
+            </div>
+            <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">Tạo tài khoản VTT</h1>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Bắt đầu quản lý công việc nhóm hoàn toàn miễn phí</p>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div style="background: var(--danger-bg); color: var(--danger-text); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; margin-bottom: 18px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+                <span>⚠</span>
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+
+        <form asp-action="Register" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label" for="reg-fullname">Họ và tên <span style="color:var(--danger)">*</span></label>
+                <input type="text" class="form-control" id="reg-fullname" name="fullName" placeholder="VD: Nguyễn Văn A" required autofocus />
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label class="form-label" for="reg-email">Email <span style="color:var(--danger)">*</span></label>
+                    <input type="email" class="form-control" id="reg-email" name="email" placeholder="email@domain.com" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-username">Tên người dùng <span style="color:var(--danger)">*</span></label>
+                    <input type="text" class="form-control" id="reg-username" name="userName" placeholder="nguyenvana" required />
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label class="form-label" for="reg-password">Mật khẩu <span style="color:var(--danger)">*</span></label>
+                    <input type="password" class="form-control" id="reg-password" name="password" placeholder="Tối thiểu 4 ký tự" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="reg-confirm">Xác nhận mật khẩu <span style="color:var(--danger)">*</span></label>
+                    <input type="password" class="form-control" id="reg-confirm" name="confirmPassword" placeholder="Nhập lại mật khẩu" required />
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px; font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">
+                Bằng cách đăng ký, bạn đồng ý với Điều khoản sử dụng và Chính sách bảo mật của Hệ thống quản lý công việc VTT.
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; font-size: 14px;">
+                Đăng ký tài khoản
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 24px; font-size: 13px; color: var(--text-muted);">
+            Đã có tài khoản?
+            <a asp-action="Login" style="color: var(--primary-hover); font-weight: 700; text-decoration: underline;">Đăng nhập</a>
+        </div>
+    </div>
+</div>

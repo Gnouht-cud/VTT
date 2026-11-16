@@ -1,0 +1,40 @@
+<!-- Ngăn kéo Trò chuyện nhóm thời gian thực (Team Chat Drawer) -->
+<div id="vtt-chat-drawer" class="chat-drawer">
+  <div class="chat-header">
+    <div class="chat-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <span>Trò chuyện nhóm VTT</span>
+      <span class="chat-badge-live">Live</span>
+    </div>
+    <button type="button" class="chat-close-btn" id="btn-close-chat" title="Đóng cửa sổ chat">✕</button>
+  </div>
+
+  <div class="chat-body" id="chat-messages-container">
+    <div style="text-align: center; padding: 20px; color: var(--text-subtle);">
+      <span class="spinner"></span> Đang tải tin nhắn...
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <form id="chat-form">
+      <input type="text" id="chat-input" placeholder="Nhập tin nhắn trao đổi với nhóm..." autocomplete="off" maxlength="500" required />
+      <button type="submit" class="btn btn-primary btn-sm" id="btn-send-chat" title="Gửi tin nhắn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Nút nổi mở Chat nhóm góc dưới màn hình -->
+<button type="button" class="floating-chat-trigger" id="btn-open-chat" title="Mở trò chuyện nhóm thời gian thực">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+  <span class="floating-chat-label">Chat nhóm</span>
+  <span class="floating-chat-badge" id="chat-unread-badge" style="display: none;">0</span>
+</button>

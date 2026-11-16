@@ -1,0 +1,40 @@
+<!-- Modal cảnh báo xung đột dữ liệu (Conflict Detection Modal) -->
+<div class="modal-overlay" id="conflict-modal" role="dialog" aria-modal="true" style="z-index: 9999;">
+  <div class="modal-window" style="width: 480px; border-left: 5px solid var(--warning);">
+    <div class="modal-header">
+      <h3 class="modal-title" style="color: var(--warning-text); display: flex; align-items: center; gap: 8px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Phát hiện xung đột dữ liệu!</span>
+      </h3>
+      <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+    </div>
+    <div class="modal-body" style="padding: 16px 24px;">
+      <p style="font-size: 13.5px; color: var(--text-main); margin-bottom: 12px; line-height: 1.5;">
+        Thẻ công việc này <strong>vừa được cập nhật bởi một người dùng khác</strong> trong lúc bạn đang chỉnh sửa.
+      </p>
+
+      <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 13px;">
+        <div style="font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">Dữ liệu mới trên máy chủ:</div>
+        <div>Tiêu đề: <span id="conflict-server-title" style="font-weight: 600;">...</span></div>
+        <div>Mức ưu tiên: <span id="conflict-server-priority" class="badge">...</span></div>
+        <div>Tiến độ: <span id="conflict-server-progress" style="font-weight: 600;">...</span>%</div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+        Bạn muốn tải lại dữ liệu mới nhất hay tiếp tục ghi đè dữ liệu của mình?
+      </p>
+    </div>
+    <div class="modal-footer" style="gap: 10px;">
+      <button type="button" class="btn btn-secondary" id="btn-conflict-reload">
+        Tải lại dữ liệu mới nhất
+      </button>
+      <button type="button" class="btn btn-primary" id="btn-conflict-overwrite" style="background: var(--warning); border-color: var(--warning);">
+        Ghi đè thay đổi của tôi
+      </button>
+    </div>
+  </div>
+</div>

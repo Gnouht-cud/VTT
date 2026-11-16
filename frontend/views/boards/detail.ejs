@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= board.title %> | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+        
+        <div class="board-view" data-board-id="<%= board.id %>" style="background: <%= board.background || 'linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)' %>; flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+          
+          <!-- Subheader của Bảng Kanban -->
+          <div class="board-subheader">
+            <div class="board-meta-left">
+              <h1 class="board-title-h1"><%= board.title %></h1>
+              <div class="board-divider"></div>
+              <span class="badge badge-pink"><%= workspace.name %></span>
+              <div class="board-divider"></div>
+
+              <!-- Nhóm Avatar thành viên bảng -->
+              <div class="avatar-group" title="Thành viên nhóm">
+                <% workspaceMembers.slice(0, 4).forEach(function(m) { %>
+                <div class="avatar avatar-sm" title="<%= m.user ? m.user.fullName : 'Thành viên' %> (<%= m.role %>)">
+                  <%= (m.user && m.user.avatar) ? m.user.avatar : (m.user ? m.user.fullName[0].toUpperCase() : 'U') %>
+                </div>
+                <% }); %>
+                <% if (workspaceMembers.length > 4) { %>
+                <div class="avatar avatar-sm" style="background: #2d3436; font-size: 11px;">+<%= workspaceMembers.length - 4 %></div>
+                <% } %>
+              </div>
+            </div>
+
+            <!-- Khu vực Tìm kiếm & Bộ lọc công việc -->
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              
+              <!-- Ô tìm kiếm từ khóa -->
+              <div style="position: relative;">
+                <span class="search-icon-decor" style="left: 10px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </span>
+                <input type="search" id="board-search-input" class="board-search-input" placeholder="Lọc thẻ theo tên..." aria-label="Lọc thẻ" />
+              </div>
+
+              <!-- Lọc mức ưu tiên -->
+              <select id="board-filter-priority" class="form-control" style="font-size: 12px; height: 32px; padding: 4px 8px; width: 130px; background: rgba(255,255,255,0.9);">
+                <option value="">Ưu tiên: Tất cả</option>
+                <option value="Urgent">🔴 Khẩn cấp</option>
+                <option value="High">🟠 Cao</option>
+                <option value="Medium">🟡 Trung bình</option>
+                <option value="Low">🟢 Thấp</option>
+              </select>
+
+              <!-- Lọc hạn chót -->
+              <select id="board-filter-due" class="form-control" style="font-size: 12px; height: 32px; padding: 4px 8px; width: 130px; background: rgba(255,255,255,0.9);">
+                <option value="">Hạn: Tất cả</option>
+                <option value="overdue">⏰ Đã quá hạn</option>
+                <option value="soon">◷ Sắp đến hạn (24h)</option>
+              </select>
+
+              <!-- Nút đổi nền bảng -->
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-change-board-bg" title="Đổi màu phông nền bảng">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 10 10 0 0 0 0-20"></path>
+                </svg>
+                <span>Nền</span>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Canvas Kanban chứa các cột và thẻ -->
+          <div class="board-canvas" id="board-canvas">
+            <div style="padding: 40px; color: #fff; text-align: center;">
+              <span class="spinner"></span> Đang tải các cột và công việc...
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Đổi màu nền bảng -->
+  <div class="modal-overlay" id="board-bg-modal" role="dialog" aria-modal="true">
+    <div class="modal-window" style="width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Chọn màu phông nền bảng</h3>
+        <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 16px 20px;">
+        <div class="palette-picker" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)">Sunrise</div>
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #e84393 100%)">Rose</div>
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%);" data-bg="linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%)">Lavender</div>
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);" data-bg="linear-gradient(135deg, #55efc4 0%, #81ecec 100%)">Mint</div>
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);" data-bg="linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%)">Ocean</div>
+          <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)">Sunset</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-modal-close>Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <%- include('_card_modal') %>
+  <%- include('../partials/conflict_modal') %>
+  <%- include('../partials/toast') %>
+  <%- include('../partials/confirm_modal') %>
+  <%- include('../partials/create_board_modal') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <!-- Modules JavaScript -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/card-detail.js"></script>
+  <script src="/js/board.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mẫu bảng việc | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="padding: 32px 36px; max-width: 1080px;">
+          <div style="margin-bottom: 28px;">
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Bộ sưu tập Mẫu bảng việc</h1>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Khởi tạo bảng mới nhanh chóng với các quy trình được thiết kế chuẩn mực</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+            
+            <!-- Template 1: Agile Scrum -->
+            <div style="background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+              <div style="height: 110px; background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); padding: 18px; color: #fff; display: flex; align-items: flex-end;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;">Dự án Agile / Scrum</h3>
+              </div>
+              <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                    Dành cho các đội ngũ phát triển phần mềm, quản lý Sprint, Backlog, kiểm thử và bàn giao sản phẩm.
+                  </p>
+                  <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 16px;">
+                    Các cột: <b>Product Backlog</b>, <b>Sprint hiện tại</b>, <b>Đang thực hiện</b>, <b>Kiểm thử & Review</b>, <b>Đã hoàn thành</b>
+                  </div>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="agile" />
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">Sử dụng mẫu này</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Template 2: Marketing Campaign -->
+            <div style="background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+              <div style="height: 110px; background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); padding: 18px; color: #fff; display: flex; align-items: flex-end;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;">Kế hoạch Marketing</h3>
+              </div>
+              <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                    Quản lý toàn bộ vòng đời chiến dịch tiếp thị từ lên ý tưởng, viết bài, dựng media đến duyệt và phân tích.
+                  </p>
+                  <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 16px;">
+                    Các cột: <b>Ý tưởng chiến dịch</b>, <b>Nội dung & Copywriting</b>, <b>Thiết kế Media</b>, <b>Phê duyệt</b>, <b>Đo lường & Báo cáo</b>
+                  </div>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="marketing" />
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">Sử dụng mẫu này</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Template 3: Personal Productivity -->
+            <div style="background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+              <div style="height: 110px; background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%); padding: 18px; color: #fff; display: flex; align-items: flex-end;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;">Quản lý Công việc Cá nhân</h3>
+              </div>
+              <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+                    Đơn giản, hiệu quả cho việc sắp xếp lịch trình làm việc mỗi ngày, thói quen tích cực và mục tiêu dài hạn.
+                  </p>
+                  <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 16px;">
+                    Các cột: <b>Mục tiêu tháng</b>, <b>Cần làm hôm nay</b>, <b>Đang xử lý</b>, <b>Đã hoàn thành</b>
+                  </div>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="personal" />
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">Sử dụng mẫu này</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/create_board_modal') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>
