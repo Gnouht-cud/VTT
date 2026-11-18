@@ -11,7 +11,16 @@ public class ApiController : ControllerBase
     private readonly AppDbContext _db;
     public ApiController(AppDbContext db) => _db = db;
 
-    private Task<int> MeAsync() => _db.Users.OrderBy(u => u.Id).Select(u => u.Id).FirstAsync();
+    private async Task<int> MeAsync()
+    {
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            var idClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (int.TryParse(idClaim, out var uid) && await _db.Users.AnyAsync(u => u.Id == uid))
+                return uid;
+        }
+        return await _db.Users.OrderBy(u => u.Id).Select(u => u.Id).FirstAsync();
+    }
     private const string DueFmt = "yyyy-MM-ddTHH:mm";
 
     [HttpGet("api/boards/{id:int}")]
@@ -32,6 +41,22 @@ public class ApiController : ControllerBase
             })
         }).FirstOrDefaultAsync();
         return raw == null ? NotFound() : Ok(raw);
+    }
+
+    [HttpGet("api/boards/{id:int}/archived")]
+    public async Task<IActionResult> GetArchivedCards(int id)
+    {
+        var cards = await _db.Cards
+            .Where(c => c.List!.BoardId == id && c.IsArchived)
+            .OrderByDescending(c => c.UpdatedAt)
+            .Select(c => new
+            {
+                c.Id, c.Title, c.Position, c.ListId,
+                ListTitle = c.List!.Title,
+                UpdatedAt = c.UpdatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            })
+            .ToListAsync();
+        return Ok(cards);
     }
 
     public record NewBoard(string Title, string? Background);

@@ -1,6 +1,46 @@
 @{
     ViewData["Title"] = "Trang chủ";
 }
-<h1>Chào mừng đến với VTT</h1>
-<p>Ứng dụng quản lý công việc kiểu Trello, xây dựng bằng ASP.NET Core MVC (.NET 8).</p>
-<p><a class="btn" asp-controller="Boards" asp-action="Index">Xem các bảng việc</a></p>
+
+<div style="max-width: 900px; margin: 40px auto; padding: 0 24px; text-align: center;">
+    <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 18px; background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); color: #fff; margin-bottom: 24px; box-shadow: 0 8px 20px rgba(253, 121, 168, 0.4);">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="7" height="15" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="10" rx="1.5"></rect>
+        </svg>
+    </div>
+
+    <h1 style="font-size: 32px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; letter-spacing: -0.5px;">
+        Hệ Thống Quản Lý Công Việc Nhóm Phân Tán (VTT)
+    </h1>
+    <p style="font-size: 16px; color: var(--text-muted); max-width: 620px; margin: 0 auto 32px; line-height: 1.6;">
+        Không gian làm việc cộng tác trực quan lấy cảm hứng từ Trello với phong cách thiết kế hiện đại, tối giản và tông màu hồng pastel tinh tế.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 14px; margin-bottom: 48px;">
+        <a class="btn btn-primary btn-lg" asp-controller="Boards" asp-action="Index">
+            <span>Truy cập Không gian làm việc</span>
+            <span style="font-size: 16px;">→</span>
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; text-align: left;">
+        <div style="background: #ffffff; padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">📋</div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Bảng Kanban Trực quan</h3>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">Kéo thả thẻ mượt mà giữa các cột, tùy biến danh sách và quản lý tiến độ thời gian thực.</p>
+        </div>
+
+        <div style="background: #ffffff; padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">💬</div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Thảo luận & Bình luận</h3>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">Ghi chú chi tiết, trao đổi ý kiến và theo dõi lịch sử hoạt động trên từng nhiệm vụ.</p>
+        </div>
+
+        <div style="background: #ffffff; padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px;">⏰</div>
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">Theo dõi Hạn chót</h3>
+            <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5;">Cảnh báo màu sắc tự động cho các công việc sắp hết hạn hoặc quá hạn.</p>
+        </div>
+    </div>
+</div>

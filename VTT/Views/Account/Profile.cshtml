@@ -1,0 +1,80 @@
+@model User
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+    var initial = string.IsNullOrEmpty(Model.FullName) ? "U" : Model.FullName[0].ToString().ToUpper();
+}
+
+<div class="dashboard-container" style="max-width: 800px;">
+    <div style="margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Hồ sơ người dùng</h1>
+        <p style="font-size: 13.5px; color: var(--text-muted);">Quản lý thông tin tài khoản và bảo mật của bạn</p>
+    </div>
+
+    @if (ViewBag.Success != null)
+    {
+        <div style="background: var(--success-bg); color: var(--success-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(85,239,196,0.5); display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span>@ViewBag.Success</span>
+        </div>
+    }
+
+    @if (ViewBag.Error != null)
+    {
+        <div style="background: var(--danger-bg); color: var(--danger-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+            <span>⚠</span>
+            <span>@ViewBag.Error</span>
+        </div>
+    }
+
+    <!-- Profile Overview Card -->
+    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 24px;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); color: #fff; font-size: 28px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-primary); flex-shrink: 0;">
+            @initial
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <h2 style="font-size: 18px; font-weight: 700; color: var(--text-main); margin: 0;">@Model.FullName</h2>
+                <span class="badge badge-pink">@ViewBag.Role</span>
+            </div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">@@@Model.UserName • @Model.Email</div>
+            <div style="font-size: 12px; color: var(--text-subtle);">
+                Không gian: <b>@ViewBag.WorkspaceName</b> • Tham gia ngày @Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 18px;">Chỉnh sửa thông tin</h3>
+
+        <form asp-action="Profile" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label" for="prof-fullname">Họ và tên</label>
+                <input type="text" class="form-control" id="prof-fullname" name="fullName" value="@Model.FullName" required />
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label class="form-label">Email (Không thể thay đổi)</label>
+                    <input type="email" class="form-control" value="@Model.Email" disabled style="background: var(--bg-subtle);" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tên người dùng (Không thể thay đổi)</label>
+                    <input type="text" class="form-control" value="@Model.UserName" disabled style="background: var(--bg-subtle);" />
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                <label class="form-label" for="prof-newpwd">Đổi mật khẩu mới (Bỏ trống nếu không muốn đổi)</label>
+                <input type="password" class="form-control" id="prof-newpwd" name="newPassword" placeholder="Nhập mật khẩu mới..." />
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <a asp-controller="Boards" asp-action="Index" class="btn btn-ghost">Quay lại</a>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>

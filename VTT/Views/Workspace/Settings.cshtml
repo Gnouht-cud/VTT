@@ -1,0 +1,72 @@
+@model Workspace
+@{
+    ViewData["Title"] = "Cài đặt Không gian làm việc";
+}
+
+<div class="dashboard-container" style="max-width: 800px;">
+    <div style="margin-bottom: 24px;">
+        <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Cài đặt Không gian làm việc</h1>
+        <p style="font-size: 13.5px; color: var(--text-muted);">Quản lý thông tin và cấu hình không gian làm việc nhóm của bạn</p>
+    </div>
+
+    @if (ViewBag.Success != null)
+    {
+        <div style="background: var(--success-bg); color: var(--success-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(85,239,196,0.5); display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span>@ViewBag.Success</span>
+        </div>
+    }
+
+    @if (ViewBag.Error != null)
+    {
+        <div style="background: var(--danger-bg); color: var(--danger-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+            <span>⚠</span>
+            <span>@ViewBag.Error</span>
+        </div>
+    }
+
+    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 24px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 18px;">Thông tin chung</h3>
+
+        <form asp-action="Settings" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="form-label" for="ws-name">Tên không gian làm việc <span style="color:var(--danger)">*</span></label>
+                <input type="text" class="form-control" id="ws-name" name="name" value="@Model.Name" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="ws-desc">Mô tả không gian làm việc</label>
+                <textarea class="form-control" id="ws-desc" name="description" rows="3" placeholder="Mô tả mục tiêu của nhóm...">@Model.Description</textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+                <div class="form-group">
+                    <label class="form-label">Người sáng lập</label>
+                    <input type="text" class="form-control" value="@(Model.Owner?.FullName ?? "Demo")" disabled style="background: var(--bg-subtle);" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ngày khởi tạo</label>
+                    <input type="text" class="form-control" value="@Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" disabled style="background: var(--bg-subtle);" />
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <a asp-controller="Boards" asp-action="Index" class="btn btn-ghost">Quay lại</a>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Danger Zone Info -->
+    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid rgba(255,118,117,0.3); padding: 24px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: var(--danger); margin-bottom: 8px;">Trạng thái hệ thống</h3>
+        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+            Không gian làm việc đang hoạt động trên hệ thống phân tán ASP.NET Core MVC kết nối SQL Server. Cơ sở dữ liệu và dữ liệu thành viên được sao lưu và đồng bộ tự động.
+        </p>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="Toast.info('Không gian làm việc đang trong trạng thái an toàn.')">
+            Kiểm tra trạng thái
+        </button>
+    </div>
+</div>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Các bảng công việc | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="padding: 32px 36px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0;">Bảng công việc</h1>
+                <span class="badge badge-pink"><%= workspace.name %></span>
+              </div>
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px;">
+                Chọn một bảng để theo dõi tiến độ công việc, kéo thả Kanban và cộng tác thời gian thực
+              </p>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <a href="/reports" class="btn btn-secondary btn-sm">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Xem thống kê</span>
+              </a>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-dashboard-new-board">
+                <span>+ Tạo bảng mới</span>
+              </button>
+            </div>
+          </div>
+
+          <% if (typeof success !== 'undefined' && success) { %>
+          <div style="background: var(--success-bg); color: var(--success-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 24px; border: 1px solid rgba(85,239,196,0.5); display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span><%= success %></span>
+          </div>
+          <% } %>
+
+          <!-- Grid các bảng công việc -->
+          <div class="board-grid">
+            <% boards.forEach(function(b) { %>
+            <a href="/boards/<%= b.id %>" class="board-tile" style="background: <%= b.background || 'linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)' %>;">
+              <div class="board-tile-content">
+                <h3 class="board-tile-title"><%= b.title %></h3>
+                <p class="board-tile-desc"><%= b.description || 'Theo dõi và quản lý công việc phân tán' %></p>
+                <div class="board-tile-footer">
+                  <span class="board-pill-tag">Bảng hoạt động</span>
+                  <span style="font-size: 12px; opacity: 0.9;">Xem bảng →</span>
+                </div>
+              </div>
+            </a>
+            <% }); %>
+
+            <!-- Ô tạo bảng mới -->
+            <div class="board-tile board-tile-create" id="tile-create-board">
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+                <div style="font-size: 32px; font-weight: 300; margin-bottom: 6px;">+</div>
+                <div style="font-weight: 700; font-size: 14px;">Tạo bảng mới</div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Tùy chọn phông nền & quy trình</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Mẫu bảng việc phổ biến -->
+          <div style="margin-top: 48px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h2 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin: 0;">Khởi tạo nhanh từ Mẫu</h2>
+              <a href="/templates" style="color: var(--primary-hover); font-size: 13px; font-weight: 700; text-decoration: underline;">Xem tất cả mẫu →</a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+              
+              <div style="background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 18px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 20px;">🚀</span>
+                    <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0;">Dự án Agile / Scrum</h3>
+                  </div>
+                  <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Sẵn các cột: Product Backlog, Sprint hiện tại, Đang thực hiện, Kiểm thử & Review, Hoàn thành.
+                  </p>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="agile" />
+                  <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Dùng mẫu này</button>
+                </form>
+              </div>
+
+              <div style="background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 18px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 20px;">📢</span>
+                    <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0;">Chiến dịch Marketing</h3>
+                  </div>
+                  <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Quản lý ý tưởng bài viết, thiết kế media, phê duyệt nội dung và đo lường chuyển đổi.
+                  </p>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="marketing" />
+                  <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Dùng mẫu này</button>
+                </form>
+              </div>
+
+              <div style="background: #fff; border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 18px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="font-size: 20px;">🎯</span>
+                    <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin: 0;">Mục tiêu & Việc cá nhân</h3>
+                  </div>
+                  <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Theo dõi các thói quen hàng ngày, mục tiêu tháng và các đầu việc cần làm hôm nay.
+                  </p>
+                </div>
+                <form action="/templates/use" method="post">
+                  <input type="hidden" name="templateType" value="personal" />
+                  <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Dùng mẫu này</button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/confirm_modal') %>
+  <%- include('../partials/create_board_modal') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const openModal = () => Modal.open('create-board-modal');
+      const btnHeader = document.getElementById('btn-header-create-board');
+      const btnSidebar = document.getElementById('btn-sidebar-create-board');
+      const btnDash = document.getElementById('btn-dashboard-new-board');
+      const tileCreate = document.getElementById('tile-create-board');
+
+      if (btnHeader) btnHeader.addEventListener('click', openModal);
+      if (btnSidebar) btnSidebar.addEventListener('click', openModal);
+      if (btnDash) btnDash.addEventListener('click', openModal);
+      if (tileCreate) tileCreate.addEventListener('click', openModal);
+
+      // Chọn background
+      let selectedBg = 'linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)';
+      document.querySelectorAll('.board-bg-selector').forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          document.querySelectorAll('.board-bg-selector').forEach(s => s.classList.remove('selected'));
+          swatch.classList.add('selected');
+          selectedBg = swatch.getAttribute('data-bg');
+        });
+      });
+
+      // Submit tạo bảng
+      const form = document.getElementById('create-board-form');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const title = document.getElementById('new-board-title').value.trim();
+          if (!title) return;
+
+          try {
+            const res = await fetch('/api/boards', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ title, background: selectedBg })
+            });
+            const data = await res.json();
+            if (data && data.id) {
+              window.location.href = '/boards/' + data.id;
+            }
+          } catch (err) {
+            Toast.error('Không thể tạo bảng việc.');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

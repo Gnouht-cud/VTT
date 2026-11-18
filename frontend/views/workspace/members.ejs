@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thành viên nhóm - <%= workspace.name %> | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="max-width: 960px; padding: 32px 24px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0;"><%= workspace.name %></h1>
+                <span class="badge badge-pink"><%= members.length %> Thành viên</span>
+              </div>
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px;">
+                Quản lý phân quyền, thêm thành viên mới, phân vai trò hoặc rời khỏi nhóm làm việc.
+              </p>
+            </div>
+
+            <!-- Nút rời nhóm -->
+            <% if (user && user.id !== workspace.ownerId) { %>
+            <form action="/workspace/leave" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn RỜI KHỎI nhóm này không?')">
+              <button type="submit" class="btn btn-secondary btn-sm" style="color: var(--danger); border-color: rgba(255,118,117,0.4);">
+                🚪 Rời nhóm
+              </button>
+            </form>
+            <% } %>
+          </div>
+
+          <% if (typeof success !== 'undefined' && success) { %>
+          <div style="background: var(--success-bg); color: var(--success-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(85,239,196,0.5); display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span><%= success %></span>
+          </div>
+          <% } %>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+          <div style="background: var(--danger-bg); color: var(--danger-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+            <span>⚠</span>
+            <span><%= error %></span>
+          </div>
+          <% } %>
+
+          <!-- Form Mời / Thêm Thành viên Mới -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 20px 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">+ Mời thành viên mới vào nhóm</h3>
+            <form action="/workspace/invite" method="post" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 240px;">
+                <label class="form-label" style="font-size: 12.5px;">Email hoặc Tên người dùng</label>
+                <input type="text" name="emailOrUsername" class="form-control" placeholder="VD: namle hoặc mai.tran@vtt.local..." required />
+              </div>
+              <div style="width: 160px;">
+                <label class="form-label" style="font-size: 12.5px;">Phân quyền</label>
+                <select name="role" class="form-control">
+                  <option value="Member" selected>Thành viên (Member)</option>
+                  <option value="Manager">Quản lý (Manager)</option>
+                  <option value="Admin">Quản trị viên (Admin)</option>
+                  <option value="Viewer">Quan sát viên (Viewer)</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary" style="height: 38px;">Mời vào nhóm</button>
+            </form>
+          </div>
+
+          <!-- Bảng danh sách thành viên & phân quyền -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-light); background: var(--bg-subtle); font-weight: 700; font-size: 14px;">
+              Danh sách thành viên hiện tại
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                    <th style="padding: 12px 20px;">Thành viên</th>
+                    <th style="padding: 12px 16px;">Tài khoản</th>
+                    <th style="padding: 12px 16px;">Phân quyền trong nhóm</th>
+                    <th style="padding: 12px 16px;">Ngày tham gia</th>
+                    <th style="padding: 12px 20px; text-align: right;">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% members.forEach(function(m) { %>
+                  <tr style="border-bottom: 1px solid var(--border-light);">
+                    <td style="padding: 14px 20px;">
+                      <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="avatar avatar-sm" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); font-weight: 700;">
+                          <%= (m.user && m.user.avatar) ? m.user.avatar : (m.user ? m.user.fullName[0].toUpperCase() : 'U') %>
+                        </div>
+                        <div>
+                          <div style="font-weight: 700; color: var(--text-main);">
+                            <%= m.user ? m.user.fullName : 'Người dùng' %>
+                            <% if (m.userId === workspace.ownerId) { %>
+                              <span class="badge badge-pink" style="font-size: 10px; margin-left: 4px;">Chủ sở hữu</span>
+                            <% } %>
+                            <% if (user && user.id === m.userId) { %>
+                              <span style="font-size: 11px; color: var(--primary-hover); font-weight: 600;">(Bạn)</span>
+                            <% } %>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td style="padding: 14px 16px;">
+                      <div>@<%= m.user ? m.user.userName : '' %></div>
+                      <div style="font-size: 12px; color: var(--text-muted);"><%= m.user ? m.user.email : '' %></div>
+                    </td>
+
+                    <td style="padding: 14px 16px;">
+                      <!-- Form phân quyền nhanh -->
+                      <form action="/workspace/update-role" method="post" style="display: inline-flex; align-items: center; gap: 6px;">
+                        <input type="hidden" name="userId" value="<%= m.userId %>" />
+                        <select name="role" class="form-control" style="padding: 4px 8px; font-size: 12.5px; height: 32px; width: 130px;" onchange="this.form.submit()">
+                          <option value="Admin" <%= m.role === 'Admin' ? 'selected' : '' %>>Quản trị viên</option>
+                          <option value="Manager" <%= m.role === 'Manager' ? 'selected' : '' %>>Quản lý</option>
+                          <option value="Member" <%= m.role === 'Member' ? 'selected' : '' %>>Thành viên</option>
+                          <option value="Viewer" <%= m.role === 'Viewer' ? 'selected' : '' %>>Quan sát</option>
+                        </select>
+                      </form>
+                    </td>
+
+                    <td style="padding: 14px 16px; font-size: 12px; color: var(--text-muted);">
+                      <%= new Date(m.joinedAt).toLocaleDateString('vi-VN') %>
+                    </td>
+
+                    <td style="padding: 14px 20px; text-align: right;">
+                      <% if (m.userId === workspace.ownerId) { %>
+                        <span style="font-size: 12px; color: var(--text-subtle); font-style: italic;">Chủ sở hữu</span>
+                      <% } else { %>
+                        <form action="/workspace/remove-member" method="post" style="display: inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm?')">
+                          <input type="hidden" name="userId" value="<%= m.userId %>" />
+                          <button type="submit" class="btn btn-ghost btn-sm" style="color: var(--danger); font-size: 12.5px;">
+                            Xóa khỏi nhóm
+                          </button>
+                        </form>
+                      <% } %>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thống kê & Báo cáo tiến độ | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/reports.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="max-width: 1040px; padding: 32px 28px;">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0;">Thống kê & Báo cáo tiến độ</h1>
+                <span class="badge badge-pink"><%= workspace.name %></span>
+              </div>
+              <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px;">
+                Tổng hợp tình hình thực hiện công việc theo trạng thái, theo từng thành viên và danh sách trễ hạn
+              </p>
+            </div>
+
+            <a href="/boards" class="btn btn-secondary btn-sm">Quay lại bảng việc</a>
+          </div>
+
+          <!-- 1. Hàng thẻ số liệu Tổng quan (Overview Metrics) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px;">
+            
+            <div class="stat-card">
+              <div class="stat-label">Tổng công việc</div>
+              <div class="stat-val" style="color: var(--text-main);"><%= stats.totalCards %></div>
+              <div class="stat-sub">Trong không gian nhóm</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Tỷ lệ hoàn thành</div>
+              <div class="stat-val" style="color: var(--success);"><%= stats.completionRate %>%</div>
+              <div class="stat-sub"><%= stats.completedCards %> việc đã xong</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Đang thực hiện</div>
+              <div class="stat-val" style="color: var(--warning);"><%= stats.inProgressCards %></div>
+              <div class="stat-sub">Đang được xử lý</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Chờ duyệt</div>
+              <div class="stat-val" style="color: var(--primary-hover);"><%= stats.inReviewCards %></div>
+              <div class="stat-sub">Chờ nghiệm thu</div>
+            </div>
+
+            <div class="stat-card" style="border-left: 4px solid var(--danger);">
+              <div class="stat-label">Quá hạn chót</div>
+              <div class="stat-val" style="color: var(--danger);"><%= stats.overdueCards %></div>
+              <div class="stat-sub" style="color: var(--danger-text); font-weight: 600;">Cần xử lý ngay</div>
+            </div>
+
+          </div>
+
+          <!-- 2. Biểu đồ phân bổ tỷ lệ công việc theo trạng thái -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 28px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;">
+              Phân bổ công việc theo Trạng thái
+            </h3>
+
+            <!-- Thanh Progress Bar đa màu -->
+            <div style="height: 24px; display: flex; border-radius: 12px; overflow: hidden; background: #e5e7eb; margin-bottom: 16px;">
+              <% 
+                var total = stats.totalCards || 1;
+                var pctTodo = Math.round((stats.todoCards / total) * 100);
+                var pctInProg = Math.round((stats.inProgressCards / total) * 100);
+                var pctReview = Math.round((stats.inReviewCards / total) * 100);
+                var pctDone = Math.round((stats.completedCards / total) * 100);
+              %>
+              <div style="width: <%= pctTodo %>%; background: #a29bfe;" title="Cần làm: <%= stats.todoCards %> (<%= pctTodo %>%)"></div>
+              <div style="width: <%= pctInProg %>%; background: #f39c12;" title="Đang làm: <%= stats.inProgressCards %> (<%= pctInProg %>%)"></div>
+              <div style="width: <%= pctReview %>%; background: #fd79a8;" title="Chờ duyệt: <%= stats.inReviewCards %> (<%= pctReview %>%)"></div>
+              <div style="width: <%= pctDone %>%; background: #00b894;" title="Hoàn thành: <%= stats.completedCards %> (<%= pctDone %>%)"></div>
+            </div>
+
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; font-size: 13px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#a29bfe;"></span>
+                <span>Cần làm: <b><%= stats.todoCards %></b> (<%= pctTodo %>%)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#f39c12;"></span>
+                <span>Đang làm: <b><%= stats.inProgressCards %></b> (<%= pctInProg %>%)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#fd79a8;"></span>
+                <span>Chờ duyệt: <b><%= stats.inReviewCards %></b> (<%= pctReview %>%)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="display:inline-block; width:12px; height:12px; border-radius:3px; background:#00b894;"></span>
+                <span>Hoàn thành: <b><%= stats.completedCards %></b> (<%= pctDone %>%)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Thống kê số công việc theo thành viên -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 28px;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-light); background: var(--bg-subtle); font-weight: 700; font-size: 14px;">
+              Thống kê năng suất theo Thành viên
+            </div>
+            
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                    <th style="padding: 12px 20px;">Thành viên</th>
+                    <th style="padding: 12px 14px; text-align: center;">Được giao</th>
+                    <th style="padding: 12px 14px; text-align: center;">Đã hoàn thành</th>
+                    <th style="padding: 12px 14px; text-align: center;">Đang làm</th>
+                    <th style="padding: 12px 14px; text-align: center;">Quá hạn</th>
+                    <th style="padding: 12px 20px;">Tỷ lệ hoàn thành</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% stats.membersReport.forEach(function(m) { %>
+                  <% 
+                    var mRate = m.assignedCount > 0 ? Math.round((m.completedCount / m.assignedCount) * 100) : 0;
+                  %>
+                  <tr style="border-bottom: 1px solid var(--border-light);">
+                    <td style="padding: 14px 20px;">
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="avatar avatar-sm" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);">
+                          <%= m.avatar || m.fullName[0].toUpperCase() %>
+                        </div>
+                        <div>
+                          <div style="font-weight: 700; color: var(--text-main);"><%= m.fullName %></div>
+                          <div style="font-size: 12px; color: var(--text-muted);"><%= m.email %></div>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td style="padding: 14px 14px; text-align: center; font-weight: 700;"><%= m.assignedCount %></td>
+                    <td style="padding: 14px 14px; text-align: center; color: var(--success); font-weight: 700;"><%= m.completedCount %></td>
+                    <td style="padding: 14px 14px; text-align: center; color: var(--warning); font-weight: 700;"><%= m.inProgressCount %></td>
+                    <td style="padding: 14px 14px; text-align: center; color: var(--danger); font-weight: 700;">
+                      <% if (m.overdueCount > 0) { %>
+                        <span class="badge" style="background: var(--danger-bg); color: var(--danger-text); font-weight: 800;"><%= m.overdueCount %></span>
+                      <% } else { %>
+                        0
+                      <% } %>
+                    </td>
+
+                    <td style="padding: 14px 20px;">
+                      <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                          <div style="height: 100%; width: <%= mRate %>%; background: var(--primary);"></div>
+                        </div>
+                        <span style="font-weight: 700; font-size: 12.5px; width: 40px;"><%= mRate %>%</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 4. Danh sách công việc quá hạn (Overdue Tasks Detail) -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid rgba(255,118,117,0.3); box-shadow: var(--shadow-sm); overflow: hidden;">
+            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border-light); background: var(--danger-bg); display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; font-size: 14px; color: var(--danger-text); display: flex; align-items: center; gap: 6px;">
+                <span>⏰ Danh sách công việc quá hạn</span>
+                <span class="badge" style="background: var(--danger); color: #fff;"><%= stats.overdueList.length %> việc</span>
+              </span>
+              <span style="font-size: 12.5px; color: var(--danger-text);">Cần đôn đốc và ưu tiên xử lý sớm</span>
+            </div>
+
+            <% if (stats.overdueList.length === 0) { %>
+            <div style="padding: 32px 20px; text-align: center; color: var(--success); font-weight: 600;">
+              ✓ Tuyệt vời! Hiện tại không có công việc nào bị quá hạn chót.
+            </div>
+            <% } else { %>
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border-light); color: var(--text-muted); font-size: 12px; text-transform: uppercase;">
+                    <th style="padding: 12px 20px;">Công việc</th>
+                    <th style="padding: 12px 14px;">Bảng việc</th>
+                    <th style="padding: 12px 14px;">Trạng thái</th>
+                    <th style="padding: 12px 14px;">Mức ưu tiên</th>
+                    <th style="padding: 12px 14px;">Người phụ trách</th>
+                    <th style="padding: 12px 14px;">Hạn chót</th>
+                    <th style="padding: 12px 20px; text-align: right;">Độ trễ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% stats.overdueList.forEach(function(c) { %>
+                  <tr style="border-bottom: 1px solid var(--border-light);">
+                    <td style="padding: 14px 20px; font-weight: 700; color: var(--text-main);">
+                      <%= c.title %>
+                    </td>
+
+                    <td style="padding: 14px 14px; font-size: 12.5px; color: var(--text-muted);">
+                      <%= c.boardTitle %>
+                    </td>
+
+                    <td style="padding: 14px 14px;">
+                      <span class="badge" style="background: var(--bg-subtle); color: var(--text-main);">
+                        <%= c.listTitle %>
+                      </span>
+                    </td>
+
+                    <td style="padding: 14px 14px;">
+                      <% if (c.priority === 'Urgent') { %>
+                        <span class="badge badge-urgent">🔴 Khẩn cấp</span>
+                      <% } else if (c.priority === 'High') { %>
+                        <span class="badge badge-high">🟠 Cao</span>
+                      <% } else if (c.priority === 'Medium') { %>
+                        <span class="badge badge-medium">🟡 Trung bình</span>
+                      <% } else { %>
+                        <span class="badge badge-low">🟢 Thấp</span>
+                      <% } %>
+                    </td>
+
+                    <td style="padding: 14px 14px;">
+                      <div class="avatar-group">
+                        <% (c.assignedUsers || []).forEach(function(u) { %>
+                        <div class="avatar avatar-xs" title="<%= u.fullName %>" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);">
+                          <%= u.avatar || u.fullName[0].toUpperCase() %>
+                        </div>
+                        <% }); %>
+                      </div>
+                    </td>
+
+                    <td style="padding: 14px 14px; font-size: 12.5px; color: var(--danger);">
+                      <%= new Date(c.dueDate).toLocaleDateString('vi-VN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) %>
+                    </td>
+
+                    <td style="padding: 14px 20px; text-align: right;">
+                      <span class="badge" style="background: var(--danger-bg); color: var(--danger); font-weight: 800;">
+                        Trễ <%= c.daysOverdue %> ngày
+                      </span>
+                    </td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+            <% } %>
+
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

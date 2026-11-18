@@ -1,14 +1,131 @@
 @model List<Board>
 @{
-    ViewData["Title"] = "Bảng";
+    ViewData["Title"] = "Không gian làm việc";
+    var defaultBg = "linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)";
 }
-<main class="home">
-    <h2>Các bảng của bạn</h2>
-    <div class="tiles">
-        @foreach (var b in Model)
-        {
-            <a class="tile" style="background:@(b.Background ?? "#0c66e4")" asp-action="Details" asp-route-id="@b.Id">@b.Title</a>
-        }
-        <div class="tile new" data-create-board role="button" tabindex="0">Tạo bảng mới</div>
+
+<div class="dashboard-container">
+    <!-- Hero Banner -->
+    <div class="dashboard-hero">
+        <div class="hero-content">
+            <h1>Chào mừng trở lại, Demo! 👋</h1>
+            <p>Hệ thống quản lý công việc nhóm phân tán - Theo dõi tiến độ và cộng tác trực tuyến cùng đội ngũ.</p>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">@Model.Count</div>
+                <div class="stat-label">Bảng công việc</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Thành viên nhóm</div>
+            </div>
+        </div>
     </div>
-</main>
+
+    <!-- Section: Bảng được gắn sao -->
+    <div class="dashboard-section" id="starred-boards-section" style="display: none;">
+        <div class="section-header">
+            <h2 class="section-title">
+                <span style="color: #f1c40f;">★</span>
+                <span>Bảng được gắn sao</span>
+            </h2>
+        </div>
+        <div class="board-grid" id="starred-boards-grid">
+            <!-- Render động bằng JS từ danh sách bảng đã gắn sao -->
+        </div>
+    </div>
+
+    <!-- Section: Tất cả bảng trong không gian làm việc -->
+    <div class="dashboard-section">
+        <div class="section-header">
+            <h2 class="section-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span>Không gian làm việc VTT (@Model.Count)</span>
+            </h2>
+            <button type="button" class="btn btn-primary btn-sm" data-open-create-board>
+                <span>+ Tạo bảng mới</span>
+            </button>
+        </div>
+
+        <div class="board-grid" id="all-boards-grid">
+            @foreach (var b in Model)
+            {
+                var bg = string.IsNullOrWhiteSpace(b.Background) ? defaultBg : b.Background;
+                <a class="board-card" style="background:@bg;" asp-action="Details" asp-route-id="@b.Id" data-board-id="@b.Id">
+                    <div class="board-card-title">@b.Title</div>
+                    <div class="board-card-footer">
+                        <span class="badge" style="background: rgba(255,255,255,0.25); color: #fff;">Bảng việc</span>
+                        <button type="button" class="board-star-btn" data-board-id="@b.Id" title="Gắn sao">☆</button>
+                    </div>
+                </a>
+            }
+
+            <!-- Nút tạo bảng mới trong lưới -->
+            <div class="board-card-new" data-open-create-board role="button" tabindex="0">
+                <div class="board-card-new-icon">+</div>
+                <span>Tạo bảng mới</span>
+            </div>
+        </div>
+
+        <!-- Trạng thái tìm kiếm không có kết quả -->
+        <div id="dashboard-search-empty" class="empty-state" style="display: none; padding: 32px 0;">
+            <div class="empty-state-icon">🔍</div>
+            <div class="empty-state-title">Không tìm thấy bảng phù hợp</div>
+            <div class="empty-state-text">Vui lòng kiểm tra lại từ khóa tìm kiếm của bạn hoặc tạo bảng mới.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Tạo bảng mới -->
+<div class="modal-overlay" id="create-board-modal" role="dialog" aria-modal="true">
+    <div class="modal-window">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                <span>Tạo bảng làm việc mới</span>
+            </h3>
+            <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+        </div>
+
+        <form id="create-board-form">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="new-board-title">Tiêu đề bảng <span style="color:var(--danger)">*</span></label>
+                    <input type="text" class="form-control" id="new-board-title" placeholder="VD: Sprint 1, Kế hoạch ra mắt sản phẩm..." maxlength="100" required autofocus />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Chọn phông nền màu sắc (Hồng pastel & Hiện đại)</label>
+                    <input type="hidden" id="new-board-bg-val" value="linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)" />
+                    <div class="palette-picker">
+                        <div class="palette-swatch active" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)" title="Pastel Sunrise">✓</div>
+                        <div class="palette-swatch" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #e84393 100%)" title="Pastel Rose"></div>
+                        <div class="palette-swatch" style="background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%);" data-bg="linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%)" title="Lavender Pink"></div>
+                        <div class="palette-swatch" style="background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);" data-bg="linear-gradient(135deg, #55efc4 0%, #81ecec 100%)" title="Pastel Mint"></div>
+                        <div class="palette-swatch" style="background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);" data-bg="linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%)" title="Pastel Ocean"></div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Quyền xem</label>
+                    <div style="font-size: 13px; color: var(--text-muted); background: var(--bg-subtle); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-light);">
+                        🌐 <b>Không gian làm việc</b> - Tất cả thành viên trong không gian VTT đều có thể xem và sửa bảng này.
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" data-modal-close>Hủy</button>
+                <button type="submit" class="btn btn-primary">Tạo bảng</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+{
+  "name": "vtt-frontend",
+  "version": "1.0.0",
+  "description": "Giao diện website Quản lý công việc phân tán VTT xây dựng bằng Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "vtt",
+    "kanban",
+    "nodejs",
+    "socketio",
+    "realtime",
+    "distributed-systems"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "socket.io": "^4.8.4"
+  }
+}

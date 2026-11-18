@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ sơ cá nhân | VTT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/trello.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+</head>
+<body>
+  <div class="app-root">
+    <%- include('../partials/header') %>
+
+    <div class="app-body">
+      <%- include('../partials/sidebar') %>
+
+      <main class="app-content">
+        <div class="dashboard-container" style="max-width: 800px; padding: 32px 24px;">
+          <div style="margin-bottom: 24px;">
+            <h1 style="font-size: 24px; font-weight: 800; color: var(--text-main);">Hồ sơ người dùng</h1>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Quản lý thông tin tài khoản, bảo mật và đổi mật khẩu</p>
+          </div>
+
+          <% if (typeof success !== 'undefined' && success) { %>
+          <div style="background: var(--success-bg); color: var(--success-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(85,239,196,0.5); display: flex; align-items: center; gap: 8px;">
+            <span>✓</span>
+            <span><%= success %></span>
+          </div>
+          <% } %>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+          <div style="background: var(--danger-bg); color: var(--danger-text); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(255,118,117,0.3); display: flex; align-items: center; gap: 8px;">
+            <span>⚠</span>
+            <span><%= error %></span>
+          </div>
+          <% } %>
+
+          <!-- Profile Overview Card -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 24px;">
+            <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); color: #fff; font-size: 28px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-primary); flex-shrink: 0;">
+              <%= targetUser.avatar || targetUser.fullName[0].toUpperCase() %>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                <h2 style="font-size: 18px; font-weight: 700; color: var(--text-main); margin: 0;"><%= targetUser.fullName %></h2>
+                <span class="badge badge-pink"><%= memberRole || targetUser.role %></span>
+                <% if (targetUser.isLocked) { %>
+                  <span class="badge" style="background: var(--danger-bg); color: var(--danger-text);">Đã bị khóa</span>
+                <% } else { %>
+                  <span class="badge" style="background: var(--success-bg); color: var(--success-text);">Hoạt động</span>
+                <% } %>
+              </div>
+              <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">@<%= targetUser.userName %> • <%= targetUser.email %></div>
+              <div style="font-size: 12px; color: var(--text-subtle);">
+                Không gian: <b><%= currentWorkspace.name %></b> • Tham gia ngày <%= new Date(targetUser.createdAt).toLocaleDateString('vi-VN') %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Edit Profile Form -->
+          <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); padding: 24px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 18px;">Chỉnh sửa thông tin & Đổi mật khẩu</h3>
+
+            <form action="/account/profile" method="post">
+              <div class="form-group">
+                <label class="form-label" for="prof-fullname">Họ và tên</label>
+                <input type="text" class="form-control" id="prof-fullname" name="fullName" value="<%= targetUser.fullName %>" required />
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                  <label class="form-label">Email (Cố định)</label>
+                  <input type="email" class="form-control" value="<%= targetUser.email %>" disabled style="background: var(--bg-subtle);" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Tên người dùng (Cố định)</label>
+                  <input type="text" class="form-control" value="<%= targetUser.userName %>" disabled style="background: var(--bg-subtle);" />
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: 14px; border-top: 1px dashed var(--border-light); padding-top: 16px;">
+                <label class="form-label" for="prof-newpwd">Đổi mật khẩu mới (Để trống nếu không muốn đổi)</label>
+                <input type="password" class="form-control" id="prof-newpwd" name="newPassword" placeholder="Nhập mật khẩu mới (tối thiểu 4 ký tự)..." />
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <a href="/boards" class="btn btn-ghost">Quay lại</a>
+                <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <%- include('../partials/toast') %>
+  <%- include('../partials/chat_drawer') %>
+  <%- include('../partials/sync_bar') %>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

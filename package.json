@@ -1,0 +1,11 @@
+{
+  "name": "vtt-workspace",
+  "version": "1.0.0",
+  "description": "VTT - Hệ thống Quản lý Công việc Phân tán kiểu Trello (Giao diện Node.js & Backend C#)",
+  "scripts": {
+    "start": "npm --prefix frontend start",
+    "dev": "npm --prefix frontend dev",
+    "frontend": "npm --prefix frontend start",
+    "backend": "dotnet run --project VTT/VTT.csproj"
+  }
+}
