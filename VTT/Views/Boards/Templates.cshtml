@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Thư viện Mẫu bảng việc";
+}
+
+<div class="dashboard-container">
+    <div style="margin-bottom: 32px;">
+        <h1 style="font-size: 26px; font-weight: 800; color: var(--text-main); margin-bottom: 6px; letter-spacing: -0.5px;">
+            Thư viện Mẫu bảng công việc
+        </h1>
+        <p style="font-size: 14px; color: var(--text-muted); max-width: 650px;">
+            Khởi tạo bảng nhanh chóng chỉ với 1 click từ các mẫu quy trình đã được chuẩn hóa cho đội ngũ phân tán.
+        </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;">
+        <!-- Template 1: Agile / Scrum -->
+        <div style="background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition-fast), box-shadow var(--transition-fast);">
+            <div style="height: 120px; background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%); padding: 18px 20px; color: #fff; display: flex; flex-direction: column; justify-content: space-between;">
+                <span class="badge" style="background: rgba(255,255,255,0.25); color: #fff; align-self: flex-start;">Kỹ thuật & Sản phẩm</span>
+                <h3 style="font-size: 18px; font-weight: 800; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Phát triển Agile / Scrum</h3>
+            </div>
+            <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Theo dõi Sprint, lập kế hoạch Backlog, phát triển tính năng và kiểm thử chất lượng phần mềm theo chuẩn Agile.
+                </p>
+                <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 20px;">
+                    <b>Các cột có sẵn:</b> Backlog, Sprint hiện tại, Đang thực hiện, Kiểm thử & Review, Đã hoàn thành.
+                </div>
+                <form asp-action="UseTemplate" method="post" style="margin-top: auto;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="templateType" value="agile" />
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Sử dụng mẫu này</span>
+                        <span>→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Template 2: Marketing -->
+        <div style="background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition-fast), box-shadow var(--transition-fast);">
+            <div style="height: 120px; background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%); padding: 18px 20px; color: #fff; display: flex; flex-direction: column; justify-content: space-between;">
+                <span class="badge" style="background: rgba(255,255,255,0.25); color: #fff; align-self: flex-start;">Marketing & Truyền thông</span>
+                <h3 style="font-size: 18px; font-weight: 800; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Chiến dịch Marketing</h3>
+            </div>
+            <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Quy trình sản xuất nội dung, thiết kế ấn phẩm truyền thông, kiểm duyệt và theo dõi chỉ số chiến dịch.
+                </p>
+                <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 20px;">
+                    <b>Các cột có sẵn:</b> Ý tưởng chiến dịch, Nội dung, Thiết kế Media, Phê duyệt, Báo cáo hiệu quả.
+                </div>
+                <form asp-action="UseTemplate" method="post" style="margin-top: auto;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="templateType" value="marketing" />
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Sử dụng mẫu này</span>
+                        <span>→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Template 3: Personal Productivity -->
+        <div style="background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; display: flex; flex-direction: column; transition: transform var(--transition-fast), box-shadow var(--transition-fast);">
+            <div style="height: 120px; background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%); padding: 18px 20px; color: #fff; display: flex; flex-direction: column; justify-content: space-between;">
+                <span class="badge" style="background: rgba(255,255,255,0.25); color: #fff; align-self: flex-start;">Năng suất Cá nhân</span>
+                <h3 style="font-size: 18px; font-weight: 800; margin: 0; text-shadow: 0 1px 3px rgba(0,0,0,0.2);">Kế hoạch Công việc Cá nhân</h3>
+            </div>
+            <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                    Tập trung hoàn thành các nhiệm vụ quan trọng trong ngày, đặt mục tiêu tuần và nâng cao năng suất cá nhân.
+                </p>
+                <div style="font-size: 12px; color: var(--text-subtle); margin-bottom: 20px;">
+                    <b>Các cột có sẵn:</b> Mục tiêu tháng, Cần làm hôm nay, Đang xử lý, Hoàn thành.
+                </div>
+                <form asp-action="UseTemplate" method="post" style="margin-top: auto;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="templateType" value="personal" />
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Sử dụng mẫu này</span>
+                        <span>→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

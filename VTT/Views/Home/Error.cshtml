@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Đã xảy ra lỗi";
+}
+
+<div class="empty-state" style="margin-top: 60px;">
+    <div class="empty-state-icon" style="background: var(--danger-bg); color: var(--danger-text); font-size: 32px;">
+        ⚠
+    </div>
+    <h2 class="empty-state-title">Đã xảy ra lỗi trong quá trình xử lý</h2>
+    <p class="empty-state-text">
+        Hệ thống không thể hoàn tất yêu cầu của bạn. Vui lòng quay lại hoặc trở về trang chủ.
+    </p>
+    <div style="display: flex; gap: 12px;">
+        <button type="button" class="btn btn-ghost" onclick="history.back()">Quay lại</button>
+        <a class="btn btn-primary" asp-controller="Boards" asp-action="Index">Về trang chủ bảng việc</a>
+    </div>
+</div>

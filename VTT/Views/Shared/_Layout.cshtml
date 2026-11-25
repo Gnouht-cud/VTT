@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | VTT - Quản lý công việc phân tán</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/trello.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @Html.AntiForgeryToken()
+    <div class="app-root">
+        <!-- Header chính -->
+        <partial name="_Header" />
+
+        <div class="app-body">
+            <!-- Sidebar thu gọn / mở rộng -->
+            <partial name="_Sidebar" />
+
+            <!-- Khu vực nội dung trang -->
+            <main class="app-content">
+                @if (TempData["Success"] is string flashOk && Context.Request.Path.StartsWithSegments("/Boards"))
+                {
+                    <div class="flash-banner flash-success">✓ @flashOk</div>
+                }
+                @if (TempData["Error"] is string flashErr && Context.Request.Path.StartsWithSegments("/Boards"))
+                {
+                    <div class="flash-banner flash-error">⚠ @flashErr</div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Hộp thoại & Toast thông báo toàn cục -->
+    <partial name="_Toast" />
+    <partial name="_ConfirmModal" />
+
+    <!-- Modules JavaScript -->
+    <script src="~/js/api.js" asp-append-version="true"></script>
+    <script src="~/js/toast.js" asp-append-version="true"></script>
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+    <script src="~/js/due.js" asp-append-version="true"></script>
+    <script src="~/js/card-detail.js" asp-append-version="true"></script>
+    <script src="~/js/board.js" asp-append-version="true"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script src="~/js/trello.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

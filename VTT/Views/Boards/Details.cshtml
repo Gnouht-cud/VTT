@@ -1,0 +1,129 @@
+@model Board
+@{
+    ViewData["Title"] = Model.Title;
+    var defaultBg = "linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)";
+    var bg = string.IsNullOrWhiteSpace(Model.Background) ? defaultBg : Model.Background;
+    var canManage = ViewBag.CanManage == true;
+}
+
+<div class="board-view" data-board-id="@Model.Id" data-can-manage="@(canManage ? "true" : "false")" style="background:@bg;">
+    <!-- Subheader của Bảng -->
+    <div class="board-subheader">
+        <div class="board-meta-left">
+            <h1 class="board-title-h1">@Model.Title</h1>
+            <button type="button" class="star-icon-btn" title="Đánh dấu sao cho bảng này" aria-label="Gắn sao">☆</button>
+            <div class="board-divider"></div>
+            <span class="badge badge-pink">@(Model.Workspace?.Name ?? "Không gian VTT")</span>
+            @if (Model.Visibility == "Private")
+            {
+                <span class="badge" title="Chỉ thành viên bảng và quản trị viên không gian xem được">🔒 Riêng tư</span>
+            }
+            <div class="board-divider"></div>
+
+            <div class="avatar-group" title="Thành viên bảng">
+                <div class="avatar avatar-sm" title="Thành viên">@((User.Identity?.Name ?? "U").Substring(0, 1).ToUpper())</div>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="position: relative;">
+                <span class="search-icon-decor" style="left: 10px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
+                <input type="search" class="board-search-input" placeholder="Lọc thẻ trong bảng..." aria-label="Lọc thẻ" />
+            </div>
+
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-open-archived" title="Xem danh sách thẻ đã lưu trữ">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                    <rect x="1" y="3" width="22" height="5"></rect>
+                    <line x1="10" y1="12" x2="14" y2="12"></line>
+                </svg>
+                <span>Thẻ lưu trữ</span>
+            </button>
+
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-change-board-bg" title="Đổi màu phông nền">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 10 10 0 0 0 0-20"></path>
+                </svg>
+                <span>Phông nền</span>
+            </button>
+
+            @if (canManage)
+            {
+                <button type="button" class="btn btn-secondary btn-sm btn-danger-outline" id="btn-delete-board" title="Xóa bảng này vĩnh viễn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                        <path d="M10 11v6M14 11v6"></path>
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                    </svg>
+                    <span>Xóa bảng</span>
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Canvas chứa các cột danh sách và thẻ -->
+    <div class="board-canvas" id="board-canvas">
+        <!-- Render động bằng JS qua API /api/boards/{id} -->
+    </div>
+</div>
+
+<!-- Modal: Đổi hình nền bảng -->
+<div class="modal-overlay" id="board-bg-modal" role="dialog" aria-modal="true">
+    <div class="modal-window" style="width: 440px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Chọn màu phông nền bảng</h3>
+            <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+                Tùy chỉnh không gian làm việc với các tông màu hồng pastel #fd79a8 và phong cách hiện đại.
+            </p>
+            <div class="palette-picker" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #fab1a0 100%)">Sunrise</div>
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);" data-bg="linear-gradient(135deg, #fd79a8 0%, #e84393 100%)">Rose</div>
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%);" data-bg="linear-gradient(135deg, #a29bfe 0%, #fd79a8 100%)">Lavender</div>
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);" data-bg="linear-gradient(135deg, #55efc4 0%, #81ecec 100%)">Mint</div>
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);" data-bg="linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%)">Ocean</div>
+                <div class="palette-swatch board-bg-option" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);" data-bg="linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)">Sunset</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" data-modal-close>Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Thẻ đã lưu trữ (Archived Cards) -->
+<div class="modal-overlay" id="archived-cards-modal" role="dialog" aria-modal="true">
+    <div class="modal-window" style="width: 560px;">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                    <rect x="1" y="3" width="22" height="5"></rect>
+                    <line x1="10" y1="12" x2="14" y2="12"></line>
+                </svg>
+                <span>Thẻ đã lưu trữ</span>
+            </h3>
+            <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">✕</button>
+        </div>
+        <div class="modal-body" style="padding: 16px 24px;">
+            <div id="archived-cards-list">
+                <!-- Render động bằng JS -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" data-modal-close>Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Chi tiết thẻ -->
+<partial name="_CardModal" />

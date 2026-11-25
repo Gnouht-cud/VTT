@@ -1,0 +1,106 @@
+@* Modal chi tiết thẻ công việc (Card Detail Modal) *@
+<div class="modal-overlay" id="card-detail-modal" role="dialog" aria-modal="true">
+    <div class="modal-window card-modal-window">
+        <div class="card-modal-header">
+            <div class="card-modal-title-box">
+                <input type="text" class="card-modal-title-input" id="card-modal-title" placeholder="Tiêu đề thẻ..." maxlength="200" />
+                <div class="card-modal-sub">
+                    trong danh sách <b id="card-modal-list-title">...</b>
+                </div>
+            </div>
+            <button type="button" class="modal-close-btn" data-modal-close aria-label="Đóng">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <div class="card-modal-grid">
+            <!-- Cột nội dung chính -->
+            <div class="card-detail-main">
+                <!-- Mô tả -->
+                <div class="card-detail-section">
+                    <h4 class="section-label-h4">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        <span>Mô tả</span>
+                    </h4>
+                    <textarea class="card-desc-textarea" id="card-modal-desc" rows="3" placeholder="Thêm mô tả chi tiết hơn cho công việc này..."></textarea>
+                    <div style="margin-top: 8px;">
+                        <button type="button" class="btn btn-primary btn-sm" id="card-modal-save-desc">Lưu mô tả</button>
+                    </div>
+                </div>
+
+                <!-- Hoạt động & Bình luận -->
+                <div class="card-detail-section">
+                    <h4 class="section-label-h4">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <span>Hoạt động & Bình luận</span>
+                    </h4>
+
+                    <div class="comment-input-box">
+                        <div class="avatar avatar-sm">D</div>
+                        <div style="flex: 1;">
+                            <textarea id="card-modal-new-comment" rows="2" placeholder="Viết bình luận cho thẻ này (Ctrl+Enter để gửi)..."></textarea>
+                            <div style="margin-top: 6px;">
+                                <button type="button" class="btn btn-primary btn-sm" id="card-modal-submit-comment">Bình luận</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment-timeline" id="card-modal-comments">
+                        <!-- Danh sách bình luận render động -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột thao tác bên phải -->
+            <div class="sidebar-action-col">
+                <h5>Ngày hết hạn</h5>
+                <div class="due-panel">
+                    <div class="due-status" id="card-modal-due-status" hidden></div>
+                    <input type="datetime-local" class="sidebar-due-input" id="card-modal-due"
+                           min="2000-01-01T00:00" max="2100-12-31T23:59" aria-label="Ngày hết hạn" />
+                    <label class="due-done-toggle" id="card-modal-due-done-wrap" hidden>
+                        <input type="checkbox" id="card-modal-due-done" />
+                        <span>Đánh dấu đã hoàn thành</span>
+                    </label>
+                    <div class="due-quick" role="group" aria-label="Chọn nhanh ngày hết hạn">
+                        <button type="button" class="due-quick-btn" data-due-offset="0">Hôm nay</button>
+                        <button type="button" class="due-quick-btn" data-due-offset="1">Ngày mai</button>
+                        <button type="button" class="due-quick-btn" data-due-offset="7">Tuần sau</button>
+                    </div>
+                    <button type="button" class="due-clear-btn" id="card-modal-due-clear" hidden>✕ Xóa ngày hết hạn</button>
+                </div>
+
+                <h5>Thao tác thẻ</h5>
+                <button type="button" class="sidebar-action-btn btn-archive" id="card-modal-archive-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="21 8 21 21 3 21 3 8"></polyline>
+                        <rect x="1" y="3" width="22" height="5"></rect>
+                        <line x1="10" y1="12" x2="14" y2="12"></line>
+                    </svg>
+                    <span>Lưu trữ thẻ</span>
+                </button>
+                <button type="button" class="sidebar-action-btn btn-delete" id="card-modal-delete-btn" hidden>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                        <path d="M10 11v6M14 11v6"></path>
+                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                    </svg>
+                    <span>Xóa thẻ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
